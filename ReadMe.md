@@ -35,4 +35,7 @@ If you already have your own preference in server running you can simply copy th
 
 Visit `http://localhost`
 
+### Screenshots
+<img width="894" alt="start_screen" src="https://github.com/user-attachments/assets/9b4a4bee-a6c2-46a6-b824-2ad08cc96dfb" />
+<img width="1370" alt="play_screen" src="https://github.com/user-attachments/assets/6917f03c-9d8e-44d7-947a-cac09cd8a226" />
 
