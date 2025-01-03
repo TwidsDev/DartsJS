@@ -11,6 +11,8 @@ Hope this project brings out your inner [Luke Littler]('https://en.wikipedia.org
 ⚠️ EXTREMELY BASIC CLIENT SIDE PROTECTIONS HAVE BEEN IMPLMENETED - NO SERVER-SIDE VALIDATION IS IMPLEMENTED MEANING PROTECTIONS CAN EASILY BE BYPASSED ⚠️
 
 ## Getting Started
+### Try it out
+The tool can be accessed directly without installation via https://twidsdev.github.io/DartsJS/
 
 ### Docker
 If you have docker and prefer to use docker, a docker compose file is provided to get everything setup instantly. I have provided an Apache and Nginx docker compose file depending on your preference. Just rename the `apache-docker-compose.yml` to `docker-compose.yml` if you'd like Apache instead. 
