@@ -1,0 +1,9 @@
+name: dartsjs
+services:
+    nginx:
+        container_name: Simple-Darts-Scoreboard
+        ports:
+            - 80:80
+        volumes:
+            - ./index.html:/usr/share/nginx/html/index.html
+        image: nginx:1.16.0-alpine

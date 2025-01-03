@@ -1,0 +1,9 @@
+name: dartsjs
+services:
+    httpd:
+        container_name: Simple-Darts-Scoreboard
+        ports:
+            - 80:80
+        volumes:
+            - '.:/usr/local/apache2/htdocs/'
+        image: httpd:latest
