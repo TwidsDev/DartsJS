@@ -3,19 +3,18 @@
 ## About
 An basic and adaptable Darts Scoreboard in HTML and Javascript. It was built to be in one file and easily hosted on any basic server. (Made pretty with bootstrap)
 
-This project will be added to during my freetime, but feel free to make changes and add new features. I've tried writing it as dynamically as possible to make it easy to modify and add features.
+This project will be added to during my freetime, but feel free to make changes and add new features. I've tried writing it as dynamically as possible to make modifying and adding features easy.
 
 Hope this project brings out your inner [Luke Littler]('https://en.wikipedia.org/wiki/Luke_Littler') 🫡
 
-⚠️ THIS PROJECT IS MADE TO BE RUN LOCALLY AND NOT OPEN TO THE INTERNET ⚠️
-⚠️ EXTREMELY BASIC CLIENT SIDE PROTECTIONS HAVE BEEN IMPLMENETED - NO SERVER-SIDE VALIDATION IS IMPLEMENTED MEANING PROTECTIONS CAN EASILY BE BYPASSED ⚠️
+⚠️ EXTREMELY BASIC CLIENT-SIDE PROTECTIONS HAVE BEEN IMPLEMENTED - NO SERVER-SIDE VALIDATION IS IMPLEMENTED MEANING PROTECTIONS CAN EASILY BE BYPASSED ⚠️
 
 ## Getting Started
 ### Try it out
 The tool can be accessed directly without installation via https://twidsdev.github.io/DartsJS/
 
 ### Docker
-If you have docker and prefer to use docker, a docker compose file is provided to get everything setup instantly. I have provided an Apache and Nginx docker compose file depending on your preference. Just rename the `apache-docker-compose.yml` to `docker-compose.yml` if you'd like Apache instead. 
+If you have docker and prefer to use docker, a docker-compose file is provided to get everything setup instantly. Depending on your preference, I have provided an Apache and Nginx docker-compose file. If you'd like Apache instead, just rename the `apache-docker-compose.yml` to `docker-compose.yml`. 
 
 `git clone`
 
