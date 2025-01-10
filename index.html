@@ -2,9 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dart Scoreboard</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
   <style>
@@ -13,28 +11,11 @@
       --border-radius: 20px;
     }
     
-    /* Prevent text selection on touch devices */
-    * {
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-    
-    /* Allow text selection in input fields */
-    input[type="text"], input[type="number"] {
-      -webkit-user-select: text;
-      user-select: text;
-    }
-    
     .player {
       margin-bottom: 1rem;
       padding: 0.5rem;
       border-radius: var(--border-radius);
       background-color: #f8f9fa;
-      -webkit-tap-highlight-color: transparent;
     }
     
     .player.active {
@@ -44,7 +25,6 @@
     
     .btn-container {
       margin: 1.5rem 0;
-      touch-action: manipulation;
     }
     
     .btn-number {
@@ -54,8 +34,6 @@
       border-radius: var(--border-radius);
       margin: 0.25rem;
       transition: transform 0.1s;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
     }
     
     .btn-number:active {
@@ -67,13 +45,8 @@
     }
     
     .btn-grid {
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
       gap: 0.5rem;
       margin-bottom: 1rem;
     }
@@ -81,8 +54,6 @@
     .score-input {
       font-size: 1.25rem;
       text-align: center;
-      -webkit-appearance: none;
-      border-radius: var(--border-radius);
     }
     
     .mode-active {
@@ -97,36 +68,21 @@
       border-radius: var(--border-radius);
       font-size: 0.9rem;
     }
-
-    /* iOS specific button styles */
-    @supports (-webkit-touch-callout: none) {
-      .btn {
-        cursor: pointer;
-        -webkit-appearance: none;
-      }
-      
-      input[type="radio"] + label {
-        cursor: pointer;
-      }
-    }
   </style>
 </head>
-<body ontouchstart="">
+<body>
   <div class="container py-4">
     <div class="row justify-content-center">
       <div id="setup-container" class="col-md-6">
         <div id="setup-form" class="card p-4">
-          <h2 class="text-center mb-1">Dart Scoreboard Setup</h2>
-          <p class="text-center mb-4">
-            An open-source project by <a href="https://github.com/TwidsDev/DartsJS" target="_blank">TwidsDev</a>
-            </p>
+          <h2 class="text-center mb-4">Dart Scoreboard Setup</h2>
           <div class="form-group mb-3">
             <label for="player1" class="form-label">Player 1 Name:</label>
-            <input type="text" class="form-control" id="player1" pattern="[a-zA-Z0-9]+" title="Only letters and numbers are allowed" required autocomplete="off" autocorrect="off" autocapitalize="off">
+            <input type="text" class="form-control" id="player1" pattern="[a-zA-Z0-9]+" title="Only letters and numbers are allowed" required>
           </div>
           <div class="form-group mb-3">
             <label for="player2" class="form-label">Player 2 Name:</label>
-            <input type="text" class="form-control" id="player2" pattern="[a-zA-Z0-9]+" title="Only letters and numbers are allowed" required autocomplete="off" autocorrect="off" autocapitalize="off">
+            <input type="text" class="form-control" id="player2" pattern="[a-zA-Z0-9]+" title="Only letters and numbers are allowed" required>
           </div>
           <div class="form-group mb-3">
             <label class="form-label">Starting Score:</label>
@@ -171,9 +127,16 @@
           <div class="card-body">
             <div class="btn-container">
               <div class="btn-grid">
-                <input type="number" class="form-control score-input" id="dart1" placeholder="Dart 1" readonly>
-                <input type="number" class="form-control score-input" id="dart2" placeholder="Dart 2" readonly>
-                <input type="number" class="form-control score-input" id="dart3" placeholder="Dart 3" readonly>
+                <div class="d-flex">
+                  <input type="number" class="form-control score-input me-2" id="dart1" placeholder="Dart 1" readonly>
+                  <input type="number" class="form-control score-input me-2" id="dart2" placeholder="Dart 2" readonly>
+                  <input type="number" class="form-control score-input me-2" id="dart3" placeholder="Dart 3" readonly>
+                  <button class="btn btn-warning" onclick="backspace()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-backspace-fill" viewBox="0 0 16 16">
+                      <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z"/>
+                    </svg>
+                  </button>
+                </div>
                 <div class="d-flex align-items-center justify-content-center">
                   <strong>Total:</strong>&nbsp;<span id="total-score" class="h4 mb-0">0</span>
                 </div>
@@ -186,7 +149,7 @@
                 <button class="btn btn-primary btn-number m-1" onclick="addScore(50)">Bull</button>
                 <button class="btn btn-info btn-number m-1" id="doubleBtn" onclick="toggleDouble()">×2</button>
                 <button class="btn btn-success btn-number m-1" id="tripleBtn" onclick="toggleTriple()">×3</button>
-                <button class="btn btn-danger btn-number m-1" onclick="nextPlayer()">Enter</button>
+                <button class="btn btn-outline-secondary btn-number m-1" onclick="nextPlayer()">↵</button>
               </div>
             </div>
           </div>
@@ -201,197 +164,32 @@
     let doubleMode = false;
     let tripleMode = false;
 
-    const checkouts = {
-      170: "T20 T20 Bull",
-      167: "T20 T19 Bull",
-      164: "T20 T18 Bull",
-      161: "T20 T17 Bull",
-      160: "T20 T20 D20",
-      157: "T20 T19 D20",
-      156: "T20 T20 D18",
-      155: "T20 T19 D19",
-      154: "T20 T18 D20",
-      153: "T20 T19 D18",
-      152: "T20 T20 D16",
-      151: "T20 T17 D20",
-      150: "T20 T18 D18",
-      149: "T20 T19 D16",
-      148: "T20 T16 D20",
-      147: "T20 T17 D18",
-      146: "T20 T18 D16",
-      145: "T20 T15 D20",
-      144: "T20 T20 D12",
-      143: "T20 T17 D16",
-      142: "T20 T14 D20",
-      141: "T20 T19 D12",
-      140: "T20 T20 D10",
-      139: "T20 T13 D20",
-      138: "T20 T18 D12",
-      137: "T20 T19 D10",
-      136: "T20 T20 D8",
-      135: "T20 T17 D12",
-      134: "T20 T14 D16",
-      133: "T20 T19 D8",
-      132: "T20 T16 D12",
-      131: "T20 T13 D16",
-      130: "T20 T20 D5",
-      129: "T19 T16 D12",
-      128: "T18 T14 D16",
-      127: "T20 T17 D8",
-      126: "T19 T19 D6",
-      125: "T20 T19 D4",
-      124: "T20 T16 D8",
-      123: "T19 T16 D9",
-      122: "T18 T20 D4",
-      121: "T20 T11 D14",
-      120: "T20 20 D20",
-      119: "T19 T12 D13",
-      118: "T20 18 D20",
-      117: "T20 17 D20",
-      116: "T20 16 D20",
-      115: "T20 15 D20",
-      114: "T20 14 D20",
-      113: "T20 13 D20",
-      112: "T20 12 D20",
-      111: "T20 11 D20",
-      110: "T20 10 D20",
-      109: "T20 9 D20",
-      108: "T20 8 D20",
-      107: "T19 10 D20",
-      106: "T20 6 D20",
-      105: "T20 5 D20",
-      104: "T18 10 D20",
-      103: "T19 6 D20",
-      102: "T20 2 D20",
-      101: "T17 10 D20",
-      100: "T20 D20",
-      99: "T19 10 D16",
-      98: "T20 D19",
-      97: "T19 D20",
-      96: "T20 D18",
-      95: "T19 D19",
-      94: "T18 D20",
-      93: "T19 D18",
-      92: "T20 D16",
-      91: "T17 D20",
-      90: "T18 D18",
-      89: "T19 D16",
-      88: "T16 D20",
-      87: "T17 D18",
-      86: "T18 D16",
-      85: "T15 D20",
-      84: "T20 D12",
-      83: "T17 D16",
-      82: "T14 D20",
-      81: "T19 D12",
-      80: "T20 D10",
-      79: "T13 D20",
-      78: "T18 D12",
-      77: "T19 D10",
-      76: "T20 D8",
-      75: "T17 D12",
-      74: "T14 D16",
-      73: "T19 D8",
-      72: "T16 D12",
-      71: "T13 D16",
-      70: "T18 D8",
-      69: "T19 D6",
-      68: "T20 D4",
-      67: "T17 D8",
-      66: "T10 D18",
-      65: "T19 D4",
-      64: "T16 D8",
-      63: "T13 D12",
-      62: "T10 D16",
-      61: "T15 D8",
-      60: "20 D20",
-      59: "19 D20",
-      58: "18 D20",
-      57: "17 D20",
-      56: "16 D20",
-      55: "15 D20",
-      54: "14 D20",
-      53: "13 D20",
-      52: "12 D20",
-      51: "11 D20",
-      50: "10 D20",
-      49: "9 D20",
-      48: "8 D20",
-      47: "15 D16",
-      46: "6 D20",
-      45: "13 D16",
-      44: "12 D16",
-      43: "11 D16",
-      42: "10 D16",
-      41: "9 D16",
-      40: "D20",
-      39: "7 D16",
-      38: "D19",
-      37: "5 D16",
-      36: "D18",
-      35: "3 D16",
-      34: "D17",
-      33: "1 D16",
-      32: "D16",
-      31: "15 D8",
-      30: "D15",
-      29: "13 D8",
-      28: "D14",
-      27: "11 D8",
-      26: "D13",
-      25: "9 D8",
-      24: "D12",
-      23: "7 D8",
-      22: "D11",
-      21: "5 D8",
-      20: "D10",
-      19: "3 D8",
-      18: "D9",
-      17: "1 D8",
-      16: "D8",
-      15: "7 D4",
-      14: "D7",
-      13: "5 D4",
-      12: "D6",
-      11: "3 D4",
-      10: "D5",
-      9: "1 D4",
-      8: "D4",
-      7: "3 D2",
-      6: "D3",
-      5: "1 D2",
-      4: "D2",
-      3: "1 D1",
-      2: "D1"
-    };
-
     const sanitizeInput = input => input.replace(/[<>]/g, '');
 
     const setupInputListeners = () => {
       ['player1', 'player2'].forEach(id => {
-        const input = document.getElementById(id);
-        input.addEventListener('input', event => {
+        document.getElementById(id).addEventListener('input', event => {
           event.target.value = sanitizeInput(event.target.value);
         });
-        // Add touch event handlers for iOS
-        input.addEventListener('touchstart', function(e) {
-          e.target.focus();
-        }, false);
       });
     };
-
+  
+    const backspace = () => {
+      const inputs = ['dart1', 'dart2', 'dart3'];
+      // Find the last non-empty input
+      const lastFilledInput = inputs.slice().reverse().find(id => document.getElementById(id).value);
+      if (lastFilledInput) {
+        document.getElementById(lastFilledInput).value = '';
+        updateTotalScore();
+      }
+    };
     const generateNumberButtons = () => {
       const container = document.getElementById('number-buttons');
       for (let i = 0; i <= 20; i++) {
         const button = document.createElement('button');
         button.className = 'btn btn-primary btn-number m-1';
         button.textContent = i;
-        // Use touchstart for faster response on iOS
-        button.addEventListener('touchstart', (e) => {
-          e.preventDefault();
-          addScore(i);
-        }, false);
-        button.addEventListener('click', () => addScore(i));
+        button.onclick = () => addScore(i);
         container.appendChild(button);
       }
     };
@@ -451,6 +249,11 @@
       } else {
         currentPlayer.score -= totalScore;
         if (currentPlayer.score === 0) {
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+          });
           alert(`🎉 ${currentPlayer.name} wins! 🎉`);
           resetGame();
           return;
@@ -507,53 +310,205 @@
       const currentPlayer = players[currentPlayerIndex];
       const checkoutInfo = document.getElementById('checkout-info');
       
+      const checkouts = {
+        170: "T20 T20 Bull",
+        167: "T20 T19 Bull",
+        164: "T20 T18 Bull",
+        161: "T20 T17 Bull",
+        160: "T20 T20 D20",
+        158: "T20 T20 D10",
+        157: "T20 T19 D20",
+        156: "T20 T20 D8",
+        155: "T20 T19 D19",
+        154: "T20 T18 D20",
+        153: "T20 T19 D18",
+        152: "T20 T20 D6",
+        151: "T20 T17 D20",
+        150: "T20 T18 D18",
+        149: "T20 T19 D16",
+        148: "T20 T16 D20",
+        147: "T20 T17 D18",
+        146: "T20 T18 D16",
+        145: "T20 T15 D20",
+        144: "T20 T20 D12",
+        143: "T19 T18 D16",
+        142: "T20 T14 D20",
+        141: "T20 T19 D12",
+        140: "T20 T20 D10",
+        139: "T20 T13 D20",
+        138: "T20 T18 D12",
+        137: "T20 T19 D10",
+        136: "T20 T20 D8",
+        135: "T20 T17 D12",
+        134: "T20 T14 D16",
+        133: "T20 T19 D8",
+        132: "T20 T16 D12",
+        131: "T20 T13 D16",
+        130: "T20 T18 D8",
+        129: "T19 T16 D12",
+        128: "T18 T18 D10",
+        127: "T20 T17 D8",
+        126: "T19 T19 D6",
+        125: "T20 T19 D4",
+        124: "T20 T16 D8",
+        123: "T19 T16 D9",
+        122: "T18 T18 D7",
+        121: "T20 T15 D8",
+        120: "T20 20 D20",
+        119: "T19 T12 D13",
+        118: "T20 T14 D8",
+        117: "T20 17 D20",
+        116: "T20 16 D20",
+        115: "T20 T13 D8",
+        114: "T20 14 D20",
+        113: "T20 13 D20",
+        112: "T20 T12 D8",
+        111: "T20 11 D20",
+        110: "T20 10 D20",
+        109: "T20 T11 D8",
+        108: "T20 8 D20",
+        107: "T19 10 D20",
+        106: "T20 T10 D8",
+        105: "T20 5 D20",
+        104: "T18 10 D20",
+        103: "T20 T9 D8",
+        102: "T20 10 D16",
+        101: "T17 10 D20",
+        100: "T20 D20",
+        99: "T19 10 D16",
+        98: "T20 D19",
+        97: "T19 D20",
+        96: "T20 D18",
+        95: "T19 D19",
+        94: "T18 D20",
+        93: "T19 D18",
+        92: "T20 D16",
+        91: "T17 D20",
+        90: "T20 D15",
+        89: "T19 D16",
+        88: "T16 D20",
+        87: "T17 D18",
+        86: "T18 D16",
+        85: "T15 D20",
+        84: "T20 D12",
+        83: "T17 D16",
+        82: "T14 D20",
+        81: "T15 D18",
+        80: "T20 D10",
+        79: "T13 D20",
+        78: "T18 D12",
+        77: "T19 D10",
+        76: "T20 D8",
+        75: "T17 D12",
+        74: "T14 D16",
+        73: "T19 D8",
+        72: "T16 D12",
+        71: "T13 D16",
+        70: "T10 D20",
+        69: "T15 D12",
+        68: "T20 D4",
+        67: "T17 D8",
+        66: "T10 D18",
+        65: "T19 D4",
+        64: "T16 D8",
+        63: "T13 D12",
+        62: "T10 D16",
+        61: "T15 D8",
+        60: "20 D20",
+        59: "19 D20",
+        58: "18 D20",
+        57: "17 D20",
+        56: "16 D20",
+        55: "15 D20",
+        54: "14 D20",
+        53: "13 D20",
+        52: "12 D20",
+        51: "11 D20",
+        50: "10 D20",
+        49: "9 D20",
+        48: "8 D20",
+        47: "7 D20",
+        46: "6 D20",
+        45: "5 D20",
+        44: "4 D20",
+        43: "3 D20",
+        42: "2 D20",
+        41: "1 D20",
+        40: "D20",
+        39: "7 D16",
+        38: "D19",
+        37: "5 D16",
+        36: "D18",
+        35: "3 D16",
+        34: "D17",
+        33: "1 D16",
+        32: "D16",
+        31: "7 D12",
+        30: "D15",
+        29: "13 D8",
+        28: "D14",
+        27: "11 D8",
+        26: "D13",
+        25: "9 D8",
+        24: "D12",
+        23: "7 D8",
+        22: "D11",
+        21: "5 D8",
+        20: "D10",
+        19: "3 D8",
+        18: "D9",
+        17: "1 D8",
+        16: "D8",
+        15: "7 D4",
+        14: "D7",
+        13: "5 D4",
+        12: "D6",
+        11: "3 D4",
+        10: "D5",
+        9: "1 D4",
+        8: "D4",
+        7: "3 D2",
+        6: "D3",
+        5: "1 D2",
+        4: "D2",
+        3: "1 D1",
+        2: "D1"
+      };
+      
       if (currentPlayer.score <= 170 && currentPlayer.score > 1) {
-        const possibleCheckout = getCheckoutCombination(currentPlayer.score);
+        const possibleCheckout = checkouts[currentPlayer.score] || "No checkout possible";
         checkoutInfo.innerHTML = `
-          <h2><strong>Checkout suggestion for ${currentPlayer.name}:</strong></h2><br>
-          ${possibleCheckout}
+          <strong>Checkout suggestion for ${currentPlayer.name}:</strong><br>
+          <div class="d-flex align-items-center">
+            <h2 id="checkout-text" class="mb-0">${possibleCheckout}</h2>
+            <div class="btn-group ms-2">
+              <button class="btn btn-sm btn-outline-secondary" onclick="adjustCheckoutSize('decrease')">A-</button>
+              <button class="btn btn-sm btn-outline-secondary" onclick="adjustCheckoutSize('increase')">A+</button>
+            </div>
+          </div>
         `;
       } else {
         checkoutInfo.innerHTML = '';
       }
     };
 
-    const getCheckoutCombination = (score) => {
-      if (checkouts[score]) {
-        return checkouts[score];
+    const adjustCheckoutSize = (action) => {
+      const checkoutText = document.getElementById('checkout-text');
+      const currentSize = parseFloat(window.getComputedStyle(checkoutText).fontSize);
+      
+      if (action === 'increase') {
+        checkoutText.style.fontSize = `${currentSize + 2}px`;
+      } else {
+        checkoutText.style.fontSize = `${Math.max(currentSize - 2, 12)}px`; // Minimum size of 12px
       }
-      return "No standard checkout available";
     };
-
-    // Prevent double-tap zoom on iOS
-    document.addEventListener('touchstart', function(event) {
-      if (event.touches.length > 1) {
-        event.preventDefault();
-      }
-    }, { passive: false });
-
-    // Prevent double-tap zoom on buttons
-    document.addEventListener('click', function(event) {
-      if (event.target.tagName === 'BUTTON') {
-        event.preventDefault();
-      }
-    }, false);
-
+    
     document.addEventListener('DOMContentLoaded', () => {
       setupInputListeners();
       generateNumberButtons();
-      
-      // Add iOS specific touch handlers
-      document.querySelectorAll('.btn').forEach(button => {
-        button.addEventListener('touchstart', function(e) {
-          e.preventDefault();
-          this.click();
-        }, false);
-      });
     });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
 </body>
-
-
 </html>
