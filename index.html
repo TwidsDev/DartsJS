@@ -241,24 +241,40 @@
     };
 
     const nextPlayer = () => {
-      const currentPlayer = players[currentPlayerIndex];
-      const totalScore = parseInt(document.getElementById('total-score').textContent);
+        const currentPlayer = players[currentPlayerIndex];
+        const dart1 = parseInt(document.getElementById('dart1').value) || 0;
+        const dart2 = parseInt(document.getElementById('dart2').value) || 0;
+        const dart3 = parseInt(document.getElementById('dart3').value) || 0;
+        const totalScore = dart1 + dart2 + dart3;
 
-      if (totalScore > currentPlayer.score) {
-        alert(`${currentPlayer.name} busts!`);
-      } else {
-        currentPlayer.score -= totalScore;
-        if (currentPlayer.score === 0) {
-          confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 },
-          });
-          alert(`🎉 ${currentPlayer.name} wins! 🎉`);
-          resetGame();
-          return;
+        // Check if the total score exceeds the player's remaining score
+        if (totalScore > currentPlayer.score) {
+          alert(`${currentPlayer.name} busts!`);
+        } else {
+          currentPlayer.score -= totalScore;
+
+          if (currentPlayer.score === 0) {
+            // Check if the player ends on a double
+            let lastDart;
+            if (dart3 !== 0) lastDart = dart3;
+            else if (dart2 !== 0) lastDart = dart2;
+            else lastDart = dart1;
+
+            if (lastDart % 2 === 0) {
+              confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+              });
+              alert(`🎉 ${currentPlayer.name} wins! 🎉`);
+              resetGame();
+              return;
+            } else {
+              alert(`${currentPlayer.name} busts! You must finish on a double.`);
+              currentPlayer.score += totalScore; // Revert score deduction
+            }
+          }
         }
-      }
 
       resetTurn();
       currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
